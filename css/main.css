@@ -1,3 +1,10 @@
 #map { height: 200px; margin-bottom: 1em; }
 h3 { font-weight: normal; }
 .data-value { font-weight: bold; font-size: larger; color: red; }
+blockquote { position: relative; }
+blockquote:before { content: "\201C"; position: absolute; font-size: 4em; top: -0.2em; left: -0.5em; }
+.group:after { content: ""; display: table; clear: both; } /* clearfix */
+ul.people { list-style-type: none; margin: 0; padding: 0; width: 100%; overflow: auto; white-space: nowrap; }
+.people li { display: inline-block; border: 1px solid green; width: 160px; margin-right: 10px; padding: 2px; }
+.people li.selected { background-color: #E4C744; }
+.people li img { float: left; margin-right: 5px; }
