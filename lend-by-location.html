@@ -1,0 +1,65 @@
+---
+layout: default
+---
+
+<h2>Help Someone in your Area.</h2>
+
+<h3>
+	There are <span class="data-value">6</span> people in your area,<br />
+	collectively asking for <span class="data-value">$825</span> in relief.
+</h3>
+
+<div id="map"></div>
+
+<div id="wufoo-z4ws3sy032pjmy">
+Fill out my <a href="https://codeforamerica.wufoo.com/forms/z4ws3sy032pjmy">online form</a>.
+</div>
+<script type="text/javascript">var z4ws3sy032pjmy;(function(d, t) {
+var s = d.createElement(t), options = {
+'userName':'codeforamerica',
+'formHash':'z4ws3sy032pjmy',
+'autoResize':true,
+'height':'576',
+'async':true,
+'host':'wufoo.com',
+'header':'hide',
+'ssl':true};
+s.src = ('https:' == d.location.protocol ? 'https://' : 'http://') + 'www.wufoo.com/scripts/embed/form.js';
+s.onload = s.onreadystatechange = function() {
+var rs = this.readyState; if (rs) if (rs != 'complete') if (rs != 'loaded') return;
+try { z4ws3sy032pjmy = new WufooForm();z4ws3sy032pjmy.initialize(options);z4ws3sy032pjmy.display(); } catch (e) {}};
+var scr = d.getElementsByTagName(t)[0], par = scr.parentNode; par.insertBefore(s, scr);
+})(document, 'script');</script>
+
+<link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css" />
+<script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+<script>
+;(function() {
+	var map = L.map('map');
+
+	L.tileLayer('https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		id: 'examples.map-i875mjb7'
+	}).addTo(map);
+
+	function onLocationFound(e) {
+		//var radius = e.accuracy / 2;
+		var radius = 3000;
+
+		L.marker(e.latlng).addTo(map);
+		L.circle(e.latlng, radius).addTo(map);
+	}
+
+	function onLocationError(e) {
+		alert(e.message);
+	}
+
+	map.on('locationfound', onLocationFound);
+	map.on('locationerror', onLocationError);
+
+	map.locate({setView: true, maxZoom: 12});
+})();
+</script>
