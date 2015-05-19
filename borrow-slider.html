@@ -1,0 +1,119 @@
+---
+layout: default
+---
+
+<h2>Borrow money from a person in your community</h2>
+
+<form>
+	<div>
+		<label for="loan-amount">Amount</label>
+		<span class="data-value">$<output for="loan-amount" id="loan-amount-output">200</output></span>
+		<input type="range" id="loan-amount" min="100" max="500" step="10" value="200" />
+	</div>
+	
+	<div>
+		<label for="loan-days">Length</label>
+		<span class="data-value"><output for="loan-days" id="loan-days-output">14</output> days</span>
+		<input type="range" id="loan-days" min="7" max="30" step="1" value="14" />
+	</div>
+	
+	<div id="loan-summary">
+		<ul>
+			<li>
+				<div>Amount</div>
+				<div class="data-value">$<span class="loan-amount"></span></div>
+				<div>for <span class="loan-days">#</span> days </div>
+			</li>
+			<li>
+				<div>Interest</div>
+				<div class="data-value">$<span class="loan-interest"></span></div>
+				<div>APR: <span class="loan-apr">#</span>%</div>
+			</li>
+			<li>
+				<div>Repayment</div>
+				<div class="data-value">$<span class="loan-repayment"></span></div>
+				<div>on <span class="loan-enddate">MM DD, YYYY</span></div>
+			</li>
+		</ul>
+	</div>
+</form>
+
+<script>
+;(function() {
+	// we have two sliders currently
+	var sliders = {
+		"loan-amount": null,
+		"loan-days": null
+	};
+	
+	// for each slider, update values as the slider changes
+	// also update the summary values
+	for (var id in sliders) {
+		if (sliders.hasOwnProperty(id)) {
+			var el = document.getElementById(id);
+			el.addEventListener("input", function(e) {
+				updateOutput(this);
+				var data = calculateSummary();
+				updateSummary(data);
+			});
+			sliders[id] = el;
+		}
+	}
+	
+	// initial summary
+	var data = calculateSummary();
+	updateSummary(data);
+	
+	// look for the corresponding output element and update it
+	function updateOutput(el) {
+		var output = document.getElementById(el.id + "-output");
+		output.innerHTML = el.value;
+	}
+	
+	function calculateAPR(amount, days) {
+		// fixed APR
+		return 0.22;
+	}
+	
+	// interest is for a fraction of the year, times the amount
+	function calculateInterest(amount, days, apr) {
+		var daysInYear = 365;
+		var repayment = (days / daysInYear) * apr * amount;
+		return repayment;
+	}
+	
+	// prepare an object that has all the data for the loan summary
+	function calculateSummary() {
+		var amount = parseFloat(sliders['loan-amount'].value);
+		var days = parseFloat(sliders['loan-days'].value);
+		var apr = calculateAPR(amount, days);
+		var interest = calculateInterest(amount, days, apr);
+		var repayment = amount + interest;
+		
+		// calculate end date
+		var d = new Date();
+		d.setUTCDate(d.getUTCDate() + days);
+		
+		var data = {
+			amount: amount,
+			days: days,
+			apr: (apr * 100).toFixed(2),
+			interest: interest.toFixed(2),
+			repayment: repayment.toFixed(2),
+			enddate: d.toLocaleDateString()
+		};
+		return data;
+	}
+	
+	// TODO: move this to a template? use jQuery?
+	function updateSummary(data) {
+		var el = document.getElementById("loan-summary");
+		el.querySelector('.loan-amount').innerHTML = data.amount;
+		el.querySelector('.loan-days').innerHTML = data.days;
+		el.querySelector('.loan-interest').innerHTML = data.interest;
+		el.querySelector('.loan-apr').innerHTML = data.apr;
+		el.querySelector('.loan-repayment').innerHTML = data.repayment;
+		el.querySelector('.loan-enddate').innerHTML = data.enddate;
+	}
+})();
+</script>

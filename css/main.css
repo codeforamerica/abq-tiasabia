@@ -22,3 +22,13 @@ ul.people { list-style-type: none; margin: 0; padding: 0; width: 100%; overflow:
 .people li { display: inline-block; border: 1px solid green; width: 160px; margin-right: 10px; padding: 2px; }
 .people li.selected { background-color: #E4C744; }
 .people li img { float: left; margin-right: 5px; }
+
+/* slider */
+input[type=range] { display: block; position: relative; margin-bottom: 1em; width: 100%; max-width: 300px; }
+input[type=range]:before { content: attr(min); left: 0; }
+input[type=range]:after { content: attr(max); right: 0; }
+input[type=range]:before, input[type=range]:after { position: absolute; bottom: -1em; }
+
+#loan-summary { font-size: smaller; margin-top: 2em; text-align: center; }
+#loan-summary ul { list-style-type: none; margin: 0 auto; padding: 0; }
+#loan-summary li { display: inline-block; margin: 0 5px; }
